@@ -68,12 +68,8 @@ export function ClientPortalTab({
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Portal settings */}
-      <form
-        onSubmit={handlePortalSettings}
-        className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-5"
-      >
-        <h3 className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-5">Portal Settings</h3>
+      <form onSubmit={handlePortalSettings} className="rounded-xl border border-gray-200 bg-white p-5">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Portal Settings</h3>
 
         <div className="flex flex-col gap-4">
           <label className="flex items-center gap-2.5 cursor-pointer">
@@ -81,20 +77,21 @@ export function ClientPortalTab({
               type="checkbox"
               name="portal_enabled"
               defaultChecked={client.portal_enabled}
-              className="rounded border-white/20 bg-zinc-900 accent-white w-4 h-4"
+              className="rounded border-gray-300 w-4 h-4"
+              style={{ accentColor: '#054F99' }}
             />
-            <span className="text-sm text-zinc-200">Portal enabled</span>
+            <span className="text-sm text-gray-700">Portal enabled</span>
           </label>
 
           <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-zinc-500">Portal Password</Label>
+            <Label className="text-xs text-gray-400 font-medium">Portal Password</Label>
             <Input
               name="portal_password"
               type="password"
               placeholder="Leave blank to keep existing"
-              className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600 h-9 text-sm max-w-xs"
+              className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm max-w-xs"
             />
-            <p className="text-xs text-zinc-600">Client must enter this to view their portal.</p>
+            <p className="text-xs text-gray-400">Client must enter this to view their portal.</p>
           </div>
 
           {portalUrl && (
@@ -103,7 +100,7 @@ export function ClientPortalTab({
                 href={portalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 {window?.location?.origin ?? ''}{portalUrl}
@@ -112,7 +109,7 @@ export function ClientPortalTab({
           )}
 
           {!client.portal_slug && (
-            <p className="text-xs text-zinc-600">Add a portal slug to the client profile first.</p>
+            <p className="text-xs text-gray-400">Add a portal slug to the client profile first.</p>
           )}
         </div>
 
@@ -120,29 +117,29 @@ export function ClientPortalTab({
           <Button
             type="submit"
             disabled={isPending}
-            className="h-8 text-xs bg-white text-black hover:bg-zinc-200 font-medium"
+            className="h-8 text-xs font-medium text-white"
+            style={{ background: '#054F99' }}
           >
             {isPending ? 'Saving…' : 'Save Settings'}
           </Button>
         </div>
       </form>
 
-      {/* Status updates */}
-      <div className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-5">
-        <h3 className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-5">Portal Updates</h3>
+      <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-5">Portal Updates</h3>
 
         {updates.length === 0 ? (
-          <p className="text-sm text-zinc-600 mb-4">No updates posted yet.</p>
+          <p className="text-sm text-gray-400 mb-4">No updates posted yet.</p>
         ) : (
           <div className="flex flex-col gap-2 mb-5">
             {updates.map((u) => (
               <div
                 key={u.id}
-                className="flex items-start justify-between rounded-lg border border-white/[0.05] bg-zinc-900/60 px-4 py-3"
+                className="flex items-start justify-between rounded-lg border border-gray-100 bg-gray-50 px-4 py-3"
               >
                 <div>
-                  <p className="text-sm text-zinc-200">{u.message}</p>
-                  <p className="text-xs text-zinc-600 mt-1">
+                  <p className="text-sm text-gray-700">{u.message}</p>
+                  <p className="text-xs text-gray-400 mt-1">
                     {new Date(u.created_at).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'short',
@@ -153,7 +150,7 @@ export function ClientPortalTab({
                 <button
                   onClick={() => handleDeleteUpdate(u.id)}
                   disabled={isPending}
-                  className="text-zinc-600 hover:text-red-400 transition-colors ml-4 mt-0.5 shrink-0"
+                  className="text-gray-300 hover:text-red-500 transition-colors ml-4 mt-0.5 shrink-0"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -168,13 +165,14 @@ export function ClientPortalTab({
             required
             rows={3}
             placeholder="Post a status update for the client…"
-            className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600 text-sm resize-none"
+            className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 text-sm resize-none"
           />
           <div className="flex justify-end">
             <Button
               type="submit"
               disabled={isPending}
-              className="h-8 text-xs bg-white text-black hover:bg-zinc-200 font-medium"
+              className="h-8 text-xs font-medium text-white"
+              style={{ background: '#054F99' }}
             >
               {isPending ? 'Posting…' : 'Post Update'}
             </Button>

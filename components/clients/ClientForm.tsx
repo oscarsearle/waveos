@@ -39,9 +39,8 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {/* Contact info */}
-      <section className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-6">
-        <h2 className="text-sm font-medium text-white mb-5">Contact</h2>
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
+        <h2 className="text-sm font-semibold text-gray-900 mb-5">Contact</h2>
         <div className="grid grid-cols-2 gap-4">
           <Field label="Full Name" name="name" defaultValue={client?.name} required />
           <Field label="Brand / Business Name" name="brand_name" defaultValue={client?.brand_name ?? ''} />
@@ -51,19 +50,18 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
         </div>
       </section>
 
-      {/* Project info */}
-      <section className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-6">
-        <h2 className="text-sm font-medium text-white mb-5">Project</h2>
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
+        <h2 className="text-sm font-semibold text-gray-900 mb-5">Project</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-zinc-400">Project Type</Label>
+            <Label className="text-xs text-gray-400 font-medium">Project Type</Label>
             <Select name="project_type" defaultValue={client?.project_type ?? ''}>
-              <SelectTrigger className="bg-zinc-900 border-white/10 text-white h-9 text-sm">
+              <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-900 h-9 text-sm">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
-              <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectContent className="bg-white border-gray-200">
                 {PROJECT_TYPES.map((t) => (
-                  <SelectItem key={t} value={t} className="text-zinc-200 focus:bg-white/10 focus:text-white">
+                  <SelectItem key={t} value={t} className="text-gray-700 focus:bg-gray-50 focus:text-gray-900">
                     {t}
                   </SelectItem>
                 ))}
@@ -72,14 +70,14 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-zinc-400">Pipeline Status</Label>
+            <Label className="text-xs text-gray-400 font-medium">Pipeline Status</Label>
             <Select name="status" defaultValue={client?.status ?? 'Lead'}>
-              <SelectTrigger className="bg-zinc-900 border-white/10 text-white h-9 text-sm">
+              <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-900 h-9 text-sm">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectContent className="bg-white border-gray-200">
                 {PIPELINE_STAGES.map((s) => (
-                  <SelectItem key={s} value={s} className="text-zinc-200 focus:bg-white/10 focus:text-white">
+                  <SelectItem key={s} value={s} className="text-gray-700 focus:bg-gray-50 focus:text-gray-900">
                     {s}
                   </SelectItem>
                 ))}
@@ -103,27 +101,26 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
         </div>
       </section>
 
-      {/* Notes */}
-      <section className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-6">
-        <h2 className="text-sm font-medium text-white mb-5">Notes</h2>
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
+        <h2 className="text-sm font-semibold text-gray-900 mb-5">Notes</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-zinc-400">Next Action</Label>
+            <Label className="text-xs text-gray-400 font-medium">Next Action</Label>
             <Input
               name="next_action"
               defaultValue={client?.next_action ?? ''}
               placeholder="e.g. Send proposal by Friday"
-              className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600 h-9 text-sm"
+              className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm"
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-zinc-400">Notes</Label>
+            <Label className="text-xs text-gray-400 font-medium">Notes</Label>
             <Textarea
               name="notes"
               defaultValue={client?.notes ?? ''}
               rows={4}
               placeholder="Internal notes about this client…"
-              className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600 text-sm resize-none"
+              className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 text-sm resize-none"
             />
           </div>
         </div>
@@ -133,7 +130,8 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
         <Button
           type="submit"
           disabled={isPending}
-          className="bg-white text-black hover:bg-zinc-200 font-medium h-9 px-5 text-sm"
+          className="font-medium h-9 px-5 text-sm text-white"
+          style={{ background: '#054F99' }}
         >
           {isPending ? 'Saving…' : submitLabel}
         </Button>
@@ -159,9 +157,9 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <Label className="text-xs text-zinc-400">
+      <Label className="text-xs text-gray-400 font-medium">
         {label}
-        {required && <span className="text-red-400 ml-0.5">*</span>}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
       </Label>
       <Input
         name={name}
@@ -169,7 +167,7 @@ function Field({
         defaultValue={defaultValue}
         placeholder={placeholder}
         required={required}
-        className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600 h-9 text-sm"
+        className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm"
       />
     </div>
   )

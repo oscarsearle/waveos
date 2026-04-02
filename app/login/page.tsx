@@ -30,7 +30,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#F2F8FC] px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
@@ -38,30 +38,30 @@ export default function LoginPage() {
             <Waves className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-white leading-tight">WaveOS</p>
-            <p className="text-xs leading-tight" style={{ color: '#00B7FF', opacity: 0.8 }}>Creative Wave Media</p>
+            <p className="text-sm font-semibold text-gray-900 leading-tight">WaveOS</p>
+            <p className="text-xs font-medium leading-tight" style={{ color: '#054F99' }}>Creative Wave Media</p>
           </div>
         </div>
 
-        <h1 className="text-xl font-semibold text-white mb-1">Sign in</h1>
-        <p className="text-sm text-zinc-500 mb-8">Admin access only.</p>
+        <h1 className="text-xl font-semibold text-gray-900 mb-1">Sign in</h1>
+        <p className="text-sm text-gray-500 mb-8">Admin access only.</p>
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email" className="text-zinc-300 text-xs">Email</Label>
+            <Label htmlFor="email" className="text-gray-700 text-xs font-medium">Email</Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="oscar@creativewavemedia.com"
+              placeholder="oscar@creativewave.nz"
               required
-              className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600"
+              className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-400"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="password" className="text-zinc-300 text-xs">Password</Label>
+            <Label htmlFor="password" className="text-gray-700 text-xs font-medium">Password</Label>
             <Input
               id="password"
               type="password"
@@ -69,7 +69,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="bg-zinc-900 border-white/10 text-white placeholder:text-zinc-600"
+              className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-400"
             />
           </div>
 

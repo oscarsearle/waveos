@@ -59,15 +59,15 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex flex-col w-52 min-h-screen shrink-0 bg-[#070707] border-r border-white/[0.055]">
+    <aside className="flex flex-col w-52 min-h-screen shrink-0 bg-white border-r border-gray-200">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-[18px] border-b border-white/[0.055]">
+      <div className="flex items-center gap-2.5 px-4 py-[18px] border-b border-gray-200">
         <div className="flex items-center justify-center w-6 h-6 rounded" style={{ background: '#054F99' }}>
           <Waves className="w-3.5 h-3.5 text-white" />
         </div>
         <div>
-          <p className="text-[13px] font-semibold tracking-tight text-white leading-none">WaveOS</p>
-          <p className="text-[10px] leading-none mt-0.5 tracking-wide" style={{ color: '#00B7FF', opacity: 0.7 }}>Creative Wave</p>
+          <p className="text-[13px] font-semibold tracking-tight text-gray-900 leading-none">WaveOS</p>
+          <p className="text-[10px] leading-none mt-0.5 tracking-wide font-medium" style={{ color: '#054F99' }}>Creative Wave</p>
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export function Sidebar() {
         {navSections.map((section, si) => (
           <div key={si} className="flex flex-col gap-0.5">
             {section.label && (
-              <p className="px-3 mb-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-zinc-600">
+              <p className="px-3 mb-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-gray-400">
                 {section.label}
               </p>
             )}
@@ -89,19 +89,21 @@ export function Sidebar() {
                   className={cn(
                     'group flex items-center gap-2.5 px-3 py-[7px] rounded-md text-[13px] font-medium transition-all duration-150',
                     active
-                      ? 'bg-white/[0.07] text-white'
-                      : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04]'
+                      ? 'text-gray-900'
+                      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'
                   )}
+                  style={active ? { background: '#EEF4FF' } : {}}
                 >
                   <Icon
                     className={cn(
                       'w-[15px] h-[15px] shrink-0 transition-colors',
-                      active ? 'text-brand' : 'text-zinc-600 group-hover:text-zinc-400'
+                      active ? '' : 'text-gray-400 group-hover:text-gray-600'
                     )}
+                    style={active ? { color: '#054F99' } : {}}
                   />
                   {label}
                   {active && (
-                    <span className="ml-auto w-1 h-1 rounded-full bg-brand" />
+                    <span className="ml-auto w-1.5 h-1.5 rounded-full" style={{ background: '#00B7FF' }} />
                   )}
                 </Link>
               )
@@ -111,10 +113,10 @@ export function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div className="px-2 pb-4 border-t border-white/[0.055] pt-3">
+      <div className="px-2 pb-4 border-t border-gray-200 pt-3">
         <button
           onClick={handleSignOut}
-          className="flex w-full items-center gap-2.5 px-3 py-[7px] rounded-md text-[13px] font-medium text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.04] transition-all"
+          className="flex w-full items-center gap-2.5 px-3 py-[7px] rounded-md text-[13px] font-medium text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
         >
           <LogOut className="w-[15px] h-[15px] shrink-0" />
           Sign out

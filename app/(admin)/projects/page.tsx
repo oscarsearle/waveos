@@ -18,14 +18,14 @@ export default async function ProjectsPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <FolderOpen className="w-5 h-5 text-zinc-400" />
+          <FolderOpen className="w-5 h-5 text-gray-400" />
           <div>
-            <h1 className="text-lg font-semibold text-white">Projects</h1>
-            <p className="text-xs text-zinc-500">{rows.length} total</p>
+            <h1 className="text-lg font-semibold text-gray-900">Projects</h1>
+            <p className="text-xs text-gray-400">{rows.length} total</p>
           </div>
         </div>
         <Link href="/projects/new">
-          <Button className="bg-white text-black hover:bg-zinc-200 h-8 text-xs font-medium">
+          <Button className="h-8 text-xs font-medium text-white" style={{ background: '#054F99' }}>
             <Plus className="w-3.5 h-3.5 mr-1.5" />
             New Project
           </Button>
@@ -34,19 +34,19 @@ export default async function ProjectsPage() {
 
       {rows.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <FolderOpen className="w-8 h-8 text-zinc-700 mb-3" />
-          <p className="text-sm text-zinc-400">No projects yet.</p>
+          <FolderOpen className="w-8 h-8 text-gray-300 mb-3" />
+          <p className="text-sm text-gray-500">No projects yet.</p>
         </div>
       ) : (
-        <div className="rounded-xl border border-white/[0.07] overflow-hidden">
+        <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/[0.07] bg-white/[0.02]">
-                <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wide">Project</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wide">Client</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wide">Stage</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wide">Shoot Date</th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wide">Deadline</th>
+              <tr className="border-b border-gray-100 bg-gray-50">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Project</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Client</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Stage</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Shoot Date</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Deadline</th>
               </tr>
             </thead>
             <tbody>
@@ -55,31 +55,31 @@ export default async function ProjectsPage() {
                 return (
                   <tr
                     key={project.id}
-                    className={`border-b border-white/[0.04] hover:bg-white/[0.03] transition-colors ${i === rows.length - 1 ? 'border-b-0' : ''}`}
+                    className={`border-b border-gray-50 hover:bg-gray-50 transition-colors ${i === rows.length - 1 ? 'border-b-0' : ''}`}
                   >
                     <td className="px-4 py-3">
-                      <Link href={`/projects/${project.id}`} className="font-medium text-white hover:text-zinc-200 transition-colors">
+                      <Link href={`/projects/${project.id}`} className="font-medium text-gray-900 hover:text-[#054F99] transition-colors">
                         {project.name}
                       </Link>
                     </td>
                     <td className="px-4 py-3">
                       {client ? (
-                        <Link href={`/clients/${client.id}`} className="text-zinc-400 hover:text-zinc-200 transition-colors">
+                        <Link href={`/clients/${client.id}`} className="text-gray-500 hover:text-gray-900 transition-colors">
                           {client.brand_name || client.name}
                         </Link>
                       ) : (
-                        <span className="text-zinc-600">—</span>
+                        <span className="text-gray-300">—</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={project.stage} />
                     </td>
-                    <td className="px-4 py-3 text-zinc-400">
+                    <td className="px-4 py-3 text-gray-500">
                       {project.shoot_date
                         ? new Date(project.shoot_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                         : '—'}
                     </td>
-                    <td className="px-4 py-3 text-zinc-400">
+                    <td className="px-4 py-3 text-gray-500">
                       {project.deadline
                         ? new Date(project.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                         : '—'}

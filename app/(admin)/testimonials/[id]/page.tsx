@@ -36,62 +36,62 @@ export default async function TestimonialDetailPage({
 
   return (
     <div className="p-8 max-w-xl">
-      <Link href="/testimonials" className="inline-flex items-center gap-1.5 text-[12px] text-zinc-600 hover:text-zinc-300 transition-colors mb-6">
+      <Link href="/testimonials" className="inline-flex items-center gap-1.5 text-[12px] text-gray-400 hover:text-gray-700 transition-colors mb-6">
         <ChevronLeft className="w-3.5 h-3.5" />
         Testimonials
       </Link>
 
       <div className="mb-8">
-        <h1 className="text-lg font-semibold text-white tracking-tight mb-1">
+        <h1 className="text-lg font-semibold text-gray-900 tracking-tight mb-1">
           {client ? (client.brand_name || client.name) : 'Testimonial'}
         </h1>
         {client && (
-          <Link href={`/clients/${client.id}`} className="text-[13px] text-zinc-500 hover:text-zinc-300 transition-colors">
+          <Link href={`/clients/${client.id}`} className="text-[13px] text-gray-400 hover:text-gray-700 transition-colors">
             View client
           </Link>
         )}
       </div>
 
       {t.quote && t.status === 'Approved' && (
-        <div className="rounded-xl border border-white/[0.07] bg-[#0f0f0f] p-6 mb-6">
-          <Quote className="w-5 h-5 text-brand mb-4" />
-          <p className="text-[15px] text-zinc-100 leading-relaxed font-light italic">{t.quote}</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-6 mb-6">
+          <Quote className="w-5 h-5 mb-4" style={{ color: '#00B7FF' }} />
+          <p className="text-[15px] text-gray-700 leading-relaxed font-light italic">{t.quote}</p>
           {client && (
-            <p className="text-[12px] text-zinc-600 mt-4">— {client.brand_name || client.name}</p>
+            <p className="text-[12px] text-gray-400 mt-4">— {client.brand_name || client.name}</p>
           )}
         </div>
       )}
 
       <form action={updateAction} className="flex flex-col gap-5">
-        <div className="rounded-xl border border-white/[0.07] bg-[#0f0f0f] p-6 flex flex-col gap-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-6 flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
-            <Label className="text-[11px] text-zinc-500 uppercase tracking-widest">Status</Label>
+            <Label className="text-[11px] text-gray-400 uppercase tracking-widest font-semibold">Status</Label>
             <Select name="status" defaultValue={t.status}>
-              <SelectTrigger className="bg-zinc-900/60 border-white/[0.08] text-white h-9 text-[13px]">
+              <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-900 h-9 text-[13px]">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-zinc-900 border-white/10">
+              <SelectContent className="bg-white border-gray-200">
                 {TESTIMONIAL_STATUSES.map((s) => (
-                  <SelectItem key={s} value={s} className="text-zinc-200 text-[13px] focus:bg-white/10 focus:text-white">{s}</SelectItem>
+                  <SelectItem key={s} value={s} className="text-gray-700 text-[13px] focus:bg-gray-50 focus:text-gray-900">{s}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label className="text-[11px] text-zinc-500 uppercase tracking-widest">Quote</Label>
+            <Label className="text-[11px] text-gray-400 uppercase tracking-widest font-semibold">Quote</Label>
             <Textarea
               name="quote"
               rows={6}
               defaultValue={t.quote ?? ''}
               placeholder="Client's testimonial text…"
-              className="bg-zinc-900/60 border-white/[0.08] text-white placeholder:text-zinc-700 text-[13px] resize-none"
+              className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 text-[13px] resize-none"
             />
           </div>
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit" className="bg-white text-black hover:bg-zinc-100 font-medium h-9 px-5 text-[13px] rounded-lg">
+          <Button type="submit" className="font-medium h-9 px-5 text-[13px] rounded-lg text-white" style={{ background: '#054F99' }}>
             Save Changes
           </Button>
         </div>

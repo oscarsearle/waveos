@@ -38,20 +38,20 @@ export function ProposalStatusUpdater({
     <DropdownMenu>
       <DropdownMenuTrigger
         disabled={isPending}
-        className="inline-flex items-center gap-1.5 h-8 px-3 rounded-md text-xs border border-white/10 text-zinc-300 hover:text-white hover:bg-white/[0.05] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-1.5 h-8 px-3 rounded-md text-xs border border-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isPending ? 'Updating…' : 'Change Status'}
         <ChevronDown className="w-3.5 h-3.5" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-zinc-900 border-white/10" align="end">
+      <DropdownMenuContent className="bg-white border-gray-200" align="end">
         {PROPOSAL_STATUSES.map((status) => (
           <DropdownMenuItem
             key={status}
             onClick={() => handleStatusChange(status)}
-            className={`text-sm cursor-pointer focus:bg-white/10 focus:text-white ${status === currentStatus ? 'text-zinc-500' : 'text-zinc-200'}`}
+            className={`text-sm cursor-pointer focus:bg-gray-50 focus:text-gray-900 ${status === currentStatus ? 'text-gray-300' : 'text-gray-700'}`}
           >
             {status}
-            {status === currentStatus && <span className="ml-2 text-zinc-600">current</span>}
+            {status === currentStatus && <span className="ml-2 text-gray-300">current</span>}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
