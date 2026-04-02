@@ -12,10 +12,10 @@ import {
   DollarSign,
   MessageSquareQuote,
   LogOut,
-  Waves,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const navSections = [
   {
@@ -61,14 +61,14 @@ export function Sidebar() {
   return (
     <aside className="flex flex-col w-48 min-h-screen shrink-0 bg-white border-r border-[#d0d7d0]">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-5 border-b border-[#d0d7d0]">
-        <div className="flex items-center justify-center w-7 h-7 rounded" style={{ background: '#054F99' }}>
-          <Waves className="w-3.5 h-3.5 text-white" />
-        </div>
-        <div>
-          <p className="text-[13px] font-semibold leading-none text-[#1E1E1E]" style={{ fontFamily: 'var(--font-poppins)', letterSpacing: '-0.02em' }}>WaveOS</p>
-          <p className="text-[10px] leading-none mt-0.5 font-medium" style={{ color: '#054F99' }}>Creative Wave</p>
-        </div>
+      <div className="flex items-center px-4 py-4 border-b border-[#d0d7d0]">
+        <Image
+          src="/creativewave-square_blue copy 2.png"
+          alt="Creative Wave"
+          width={120}
+          height={47}
+          priority
+        />
       </div>
 
       {/* Nav */}
