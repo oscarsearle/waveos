@@ -26,7 +26,7 @@ export default async function ProjectDetailPage({
   const [{ data: project }, { data: deliverables }, { data: frameioIntegration }] = await Promise.all([
     supabase.from('projects').select('*, clients(id, name, brand_name)').eq('id', id).single(),
     supabase.from('deliverables').select('*').eq('project_id', id).order('created_at', { ascending: true }),
-    supabase.from('integrations').select('account_id').eq('service', 'frameio').single(),
+    supabase.from('integrations').select('account_id').eq('service', 'frameio').maybeSingle(),
   ])
 
   if (!project) notFound()

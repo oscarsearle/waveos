@@ -13,7 +13,7 @@ export default async function SettingsPage({
     .from('integrations')
     .select('service, account_id, team_id, updated_at, expires_at')
     .eq('service', 'frameio')
-    .single()
+    .maybeSingle()
 
   const isConnected = !!frameioIntegration?.account_id
 
