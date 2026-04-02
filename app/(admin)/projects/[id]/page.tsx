@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { StatusBadge } from '@/components/clients/StatusBadge'
 import { DeliverablesPanel } from '@/components/deliverables/DeliverablesPanel'
+import { FrameioPanel } from '@/components/frameio/FrameioPanel'
 import { updateProjectAction } from '@/app/actions/projects'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -22,9 +23,10 @@ export default async function ProjectDetailPage({
   const { id } = await params
   const supabase = await createClient()
 
-  const [{ data: project }, { data: deliverables }] = await Promise.all([
+  const [{ data: project }, { data: deliverables }, { data: frameioIntegration }] = await Promise.all([
     supabase.from('projects').select('*, clients(id, name, brand_name)').eq('id', id).single(),
     supabase.from('deliverables').select('*').eq('project_id', id).order('created_at', { ascending: true }),
+    supabase.from('integrations').select('account_id').eq('service', 'frameio').single(),
   ])
 
   if (!project) notFound()
@@ -66,6 +68,7 @@ export default async function ProjectDetailPage({
           <TabsTrigger value="deliverables" className="text-[12px] data-[state=active]:bg-white/[0.06] data-[state=active]:text-white text-white/40">
             Deliverables {(deliverables ?? []).length > 0 ? `(${deliverables!.length})` : ''}
           </TabsTrigger>
+          <TabsTrigger value="assets" className="text-[12px] data-[state=active]:bg-white/[0.06] data-[state=active]:text-white text-white/40">Frame.io</TabsTrigger>
         </TabsList>
 
         <TabsContent value="details" className="mt-0">
@@ -131,6 +134,10 @@ export default async function ProjectDetailPage({
             clientId={p.client_id}
             deliverables={(deliverables ?? []) as Deliverable[]}
           />
+        </TabsContent>
+
+        <TabsContent value="assets" className="mt-0">
+          <FrameioPanel isConnected={!!frameioIntegration?.account_id} />
         </TabsContent>
       </Tabs>
     </div>

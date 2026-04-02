@@ -11,6 +11,7 @@ import {
   ScrollText,
   DollarSign,
   MessageSquareQuote,
+  Settings,
   LogOut,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -43,6 +44,12 @@ const navSections = [
     label: 'Content',
     items: [
       { href: '/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
+    ],
+  },
+  {
+    label: null,
+    items: [
+      { href: '/settings', label: 'Settings', icon: Settings },
     ],
   },
 ]
