@@ -138,7 +138,7 @@ export function FrameioPanel({ isConnected }: { isConnected: boolean }) {
       </div>
 
       {/* Content */}
-      <div className="divide-y" style={{ divideColor: '#162035' }}>
+      <div className="divide-y divide-[#162035]">
         {error && (
           <div className="px-4 py-3 text-[12px]" style={{ color: '#fca5a5' }}>{error}</div>
         )}
