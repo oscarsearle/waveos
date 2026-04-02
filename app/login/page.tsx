@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Waves } from 'lucide-react'
+import Image from 'next/image'
 import { toast } from 'sonner'
 
 export default function LoginPage() {
@@ -30,59 +30,80 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F2F8FC] px-4">
-      <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-10">
-          <div className="flex items-center justify-center w-9 h-9 rounded-lg" style={{ background: '#054F99' }}>
-            <Waves className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-gray-900 leading-tight">WaveOS</p>
-            <p className="text-xs font-medium leading-tight" style={{ color: '#054F99' }}>Creative Wave Media</p>
-          </div>
-        </div>
-
-        <h1 className="text-xl font-semibold text-gray-900 mb-1">Sign in</h1>
-        <p className="text-sm text-gray-500 mb-8">Admin access only.</p>
-
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email" className="text-gray-700 text-xs font-medium">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="oscar@creativewave.nz"
-              required
-              className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-400"
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-4"
+      style={{
+        background: `
+          radial-gradient(ellipse 75% 60% at 18% 68%, rgba(25, 65, 175, 0.75) 0%, transparent 65%),
+          radial-gradient(ellipse 55% 50% at 82% 22%, rgba(15, 50, 155, 0.65) 0%, transparent 60%),
+          radial-gradient(ellipse 40% 35% at 60% 80%, rgba(10, 35, 120, 0.4) 0%, transparent 55%),
+          #010c1e
+        `,
+      }}
+    >
+      <div className="w-full max-w-md">
+        {/* Card */}
+        <div className="bg-white rounded-2xl p-10 shadow-2xl">
+          {/* Logo */}
+          <div className="mb-8">
+            <Image
+              src="/creativewave-square_black copy.png"
+              alt="Creative Wave"
+              width={160}
+              height={63}
+              priority
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="password" className="text-gray-700 text-xs font-medium">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="bg-white border-gray-200 text-gray-900 placeholder:text-gray-400"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="w-full mt-2 font-medium text-white"
-            style={{ background: '#054F99' }}
+          <h1
+            className="text-2xl font-bold text-[#1E1E1E] mb-1"
+            style={{ fontFamily: 'var(--font-poppins)', letterSpacing: '-0.02em' }}
           >
-            {isPending ? 'Signing in…' : 'Sign in'}
-          </Button>
-        </form>
+            Sign in
+          </h1>
+          <p className="text-sm text-[#5A5A5A] mb-7">Admin access only.</p>
+
+          <form onSubmit={handleLogin} className="flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="email" className="text-[#1E1E1E] text-sm font-medium">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="oscar@creativewave.nz"
+                required
+                className="bg-[#f0f2f5] border-0 text-[#1E1E1E] placeholder:text-[#9AA0A6] h-11 rounded-lg focus-visible:ring-2 focus-visible:ring-[#054F99]"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="password" className="text-[#1E1E1E] text-sm font-medium">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="bg-[#f0f2f5] border-0 text-[#1E1E1E] placeholder:text-[#9AA0A6] h-11 rounded-lg focus-visible:ring-2 focus-visible:ring-[#054F99]"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="w-full h-11 mt-1 font-semibold text-white rounded-lg text-[15px]"
+              style={{ background: '#054F99' }}
+            >
+              {isPending ? 'Signing in…' : 'Sign in'}
+            </Button>
+          </form>
+        </div>
       </div>
+
+      {/* Footer */}
+      <p className="mt-6 text-[11px] text-white/30">Creative Wave Media Portal v1</p>
     </div>
   )
 }

@@ -59,24 +59,24 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex flex-col w-52 min-h-screen shrink-0 bg-white border-r border-gray-200">
+    <aside className="flex flex-col w-48 min-h-screen shrink-0 bg-white border-r border-[#d0d7d0]">
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-[18px] border-b border-gray-200">
-        <div className="flex items-center justify-center w-6 h-6 rounded" style={{ background: '#054F99' }}>
+      <div className="flex items-center gap-2.5 px-4 py-5 border-b border-[#d0d7d0]">
+        <div className="flex items-center justify-center w-7 h-7 rounded" style={{ background: '#054F99' }}>
           <Waves className="w-3.5 h-3.5 text-white" />
         </div>
         <div>
-          <p className="text-[13px] font-semibold tracking-tight text-gray-900 leading-none">WaveOS</p>
-          <p className="text-[10px] leading-none mt-0.5 tracking-wide font-medium" style={{ color: '#054F99' }}>Creative Wave</p>
+          <p className="text-[13px] font-semibold leading-none text-[#1E1E1E]" style={{ fontFamily: 'var(--font-poppins)', letterSpacing: '-0.02em' }}>WaveOS</p>
+          <p className="text-[10px] leading-none mt-0.5 font-medium" style={{ color: '#054F99' }}>Creative Wave</p>
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex flex-col gap-4 px-2 py-4 flex-1">
+      <nav className="flex flex-col gap-5 px-3 py-5 flex-1">
         {navSections.map((section, si) => (
           <div key={si} className="flex flex-col gap-0.5">
             {section.label && (
-              <p className="px-3 mb-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+              <p className="px-2 mb-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#5A5A5A]">
                 {section.label}
               </p>
             )}
@@ -87,24 +87,18 @@ export function Sidebar() {
                   key={href}
                   href={href}
                   className={cn(
-                    'group flex items-center gap-2.5 px-3 py-[7px] rounded-md text-[13px] font-medium transition-all duration-150',
+                    'flex items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium transition-all duration-150',
                     active
-                      ? 'text-gray-900'
-                      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'
+                      ? 'text-[#054F99]'
+                      : 'text-[#5A5A5A] hover:text-[#1E1E1E] hover:bg-[#E7ECE7]'
                   )}
-                  style={active ? { background: '#EEF4FF' } : {}}
+                  style={active ? { background: 'rgba(5, 79, 153, 0.07)' } : {}}
                 >
                   <Icon
-                    className={cn(
-                      'w-[15px] h-[15px] shrink-0 transition-colors',
-                      active ? '' : 'text-gray-400 group-hover:text-gray-600'
-                    )}
-                    style={active ? { color: '#054F99' } : {}}
+                    className="w-[15px] h-[15px] shrink-0 transition-colors"
+                    style={{ color: active ? '#054F99' : undefined }}
                   />
                   {label}
-                  {active && (
-                    <span className="ml-auto w-1.5 h-1.5 rounded-full" style={{ background: '#00B7FF' }} />
-                  )}
                 </Link>
               )
             })}
@@ -113,10 +107,10 @@ export function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div className="px-2 pb-4 border-t border-gray-200 pt-3">
+      <div className="px-3 pb-5 border-t border-[#d0d7d0] pt-3">
         <button
           onClick={handleSignOut}
-          className="flex w-full items-center gap-2.5 px-3 py-[7px] rounded-md text-[13px] font-medium text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
+          className="flex w-full items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium text-[#5A5A5A] hover:text-[#1E1E1E] hover:bg-[#E7ECE7] transition-all"
         >
           <LogOut className="w-[15px] h-[15px] shrink-0" />
           Sign out

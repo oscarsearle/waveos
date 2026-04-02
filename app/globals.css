@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-poppins), system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  --font-sans: var(--font-inter), var(--font-poppins), system-ui, sans-serif;
   --font-heading: var(--font-poppins), system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
   --color-brand: var(--brand);
   --color-brand-navy: var(--brand-navy);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -43,7 +43,7 @@
 }
 
 :root {
-  --background: #F2F8FC;
+  --background: #E7ECE7;        /* Creative Wave sage/cream */
   --foreground: #1E1E1E;
   --card: #FFFFFF;
   --card-foreground: #1E1E1E;
@@ -51,26 +51,26 @@
   --popover-foreground: #1E1E1E;
   --primary: #054F99;
   --primary-foreground: #FFFFFF;
-  --secondary: #E7ECE7;
+  --secondary: #d8dfd8;
   --secondary-foreground: #1E1E1E;
-  --muted: #E7ECE7;
+  --muted: #d8dfd8;
   --muted-foreground: #5A5A5A;
-  --accent: #E7ECE7;
+  --accent: #d8dfd8;
   --accent-foreground: #1E1E1E;
-  --destructive: oklch(0.62 0.22 27);
-  --border: #E2E8F0;
+  --destructive: #dc2626;
+  --border: #d0d7d0;
   --input: #FFFFFF;
   --ring: #054F99;
-  --radius: 0.5rem;
+  --radius: 0.375rem;           /* 6px — matches site's border-radius */
   --brand: #00B7FF;
   --brand-navy: #054F99;
   --sidebar: #FFFFFF;
   --sidebar-foreground: #1E1E1E;
   --sidebar-primary: #054F99;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F2F8FC;
+  --sidebar-accent: #E7ECE7;
   --sidebar-accent-foreground: #1E1E1E;
-  --sidebar-border: #E2E8F0;
+  --sidebar-border: #d0d7d0;
   --sidebar-ring: #054F99;
 }
 
@@ -80,9 +80,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-inter), var(--font-poppins), system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  html {
-    @apply font-sans;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    color: #054F99;
   }
 }
