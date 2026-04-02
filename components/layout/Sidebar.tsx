@@ -59,9 +59,9 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex flex-col w-48 min-h-screen shrink-0 bg-white border-r border-[#d0d7d0]">
+    <aside className="flex flex-col w-48 min-h-screen shrink-0 border-r" style={{ background: '#060a12', borderColor: '#162035' }}>
       {/* Logo */}
-      <div className="flex items-center px-4 py-4 border-b border-[#d0d7d0]">
+      <div className="flex items-center px-4 py-4 border-b" style={{ borderColor: '#162035' }}>
         <Image
           src="/creativewave-square_blue copy 2.png"
           alt="Creative Wave"
@@ -76,7 +76,7 @@ export function Sidebar() {
         {navSections.map((section, si) => (
           <div key={si} className="flex flex-col gap-0.5">
             {section.label && (
-              <p className="px-2 mb-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#5A5A5A]">
+              <p className="px-2 mb-1.5 text-[9px] font-semibold uppercase tracking-[0.12em]" style={{ color: '#2d4060' }}>
                 {section.label}
               </p>
             )}
@@ -89,14 +89,14 @@ export function Sidebar() {
                   className={cn(
                     'flex items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium transition-all duration-150',
                     active
-                      ? 'text-[#054F99]'
-                      : 'text-[#5A5A5A] hover:text-[#1E1E1E] hover:bg-[#E7ECE7]'
+                      ? 'text-[#00B7FF]'
+                      : 'text-white/40 hover:text-white/80 hover:bg-white/[0.04]'
                   )}
-                  style={active ? { background: 'rgba(5, 79, 153, 0.07)' } : {}}
+                  style={active ? { background: 'rgba(0,183,255,0.08)', fontFamily: 'var(--font-poppins)' } : { fontFamily: 'var(--font-poppins)' }}
                 >
                   <Icon
                     className="w-[15px] h-[15px] shrink-0 transition-colors"
-                    style={{ color: active ? '#054F99' : undefined }}
+                    style={{ color: active ? '#00B7FF' : undefined }}
                   />
                   {label}
                 </Link>
@@ -107,10 +107,11 @@ export function Sidebar() {
       </nav>
 
       {/* Sign out */}
-      <div className="px-3 pb-5 border-t border-[#d0d7d0] pt-3">
+      <div className="px-3 pb-5 pt-3 border-t" style={{ borderColor: '#162035' }}>
         <button
           onClick={handleSignOut}
-          className="flex w-full items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium text-[#5A5A5A] hover:text-[#1E1E1E] hover:bg-[#E7ECE7] transition-all"
+          className="flex w-full items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium text-white/30 hover:text-white/70 hover:bg-white/[0.04] transition-all"
+          style={{ fontFamily: 'var(--font-poppins)' }}
         >
           <LogOut className="w-[15px] h-[15px] shrink-0" />
           Sign out
