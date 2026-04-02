@@ -34,12 +34,12 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center gap-3 mb-10">
-          <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/10">
+          <div className="flex items-center justify-center w-9 h-9 rounded-lg" style={{ background: '#054F99' }}>
             <Waves className="w-5 h-5 text-white" />
           </div>
           <div>
             <p className="text-sm font-semibold text-white leading-tight">WaveOS</p>
-            <p className="text-xs text-zinc-500 leading-tight">Creative Wave Media</p>
+            <p className="text-xs leading-tight" style={{ color: '#00B7FF', opacity: 0.8 }}>Creative Wave Media</p>
           </div>
         </div>
 
@@ -76,7 +76,8 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full mt-2 bg-white text-black hover:bg-zinc-200 font-medium"
+            className="w-full mt-2 font-medium text-white"
+            style={{ background: '#054F99' }}
           >
             {isPending ? 'Signing in…' : 'Sign in'}
           </Button>

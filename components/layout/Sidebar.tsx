@@ -62,12 +62,12 @@ export function Sidebar() {
     <aside className="flex flex-col w-52 min-h-screen shrink-0 bg-[#070707] border-r border-white/[0.055]">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-4 py-[18px] border-b border-white/[0.055]">
-        <div className="flex items-center justify-center w-6 h-6 rounded bg-white/[0.08]">
+        <div className="flex items-center justify-center w-6 h-6 rounded" style={{ background: '#054F99' }}>
           <Waves className="w-3.5 h-3.5 text-white" />
         </div>
         <div>
           <p className="text-[13px] font-semibold tracking-tight text-white leading-none">WaveOS</p>
-          <p className="text-[10px] text-zinc-600 leading-none mt-0.5 tracking-wide">Creative Wave Media</p>
+          <p className="text-[10px] leading-none mt-0.5 tracking-wide" style={{ color: '#00B7FF', opacity: 0.7 }}>Creative Wave</p>
         </div>
       </div>
 
