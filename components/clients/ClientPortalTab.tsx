@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Trash2, ExternalLink } from 'lucide-react'
+import { Trash2, ExternalLink, Copy, Check } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import type { Client, PortalUpdate } from '@/lib/types'
 
@@ -22,10 +23,18 @@ export function ClientPortalTab({
   updates: PortalUpdate[]
 }) {
   const [isPending, startTransition] = useTransition()
+  const [copied, setCopied] = useState(false)
 
   const portalUrl = client.portal_slug
-    ? `/portal/${client.portal_slug}`
+    ? `${typeof window !== 'undefined' ? window.location.origin : 'https://creativewave.space'}/portal/${client.portal_slug}`
     : null
+
+  function copyPortalLink() {
+    if (!portalUrl) return
+    navigator.clipboard.writeText(portalUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   function handlePortalSettings(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -84,6 +93,17 @@ export function ClientPortalTab({
           </label>
 
           <div className="flex flex-col gap-1.5">
+            <Label className="text-xs text-gray-400 font-medium">Portal Slug</Label>
+            <Input
+              name="portal_slug"
+              defaultValue={client.portal_slug ?? ''}
+              placeholder="e.g. ben-builds"
+              className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm max-w-xs"
+            />
+            <p className="text-xs text-gray-400">Used in the portal URL. Lowercase, hyphens only.</p>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
             <Label className="text-xs text-gray-400 font-medium">Portal Password</Label>
             <Input
               name="portal_password"
@@ -95,21 +115,31 @@ export function ClientPortalTab({
           </div>
 
           {portalUrl && (
-            <div className="flex items-center gap-2">
-              <a
-                href={portalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 transition-colors"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                {window?.location?.origin ?? ''}{portalUrl}
-              </a>
+            <div className="flex flex-col gap-2">
+              <Label className="text-xs text-gray-400 font-medium">Portal Link</Label>
+              <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 max-w-md">
+                <span className="text-xs text-gray-600 truncate flex-1">{portalUrl}</span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={copyPortalLink}
+                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied ? 'Copied!' : 'Copy'}
+                  </button>
+                  <a
+                    href={portalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Open
+                  </a>
+                </div>
+              </div>
             </div>
-          )}
-
-          {!client.portal_slug && (
-            <p className="text-xs text-gray-400">Add a portal slug to the client profile first.</p>
           )}
         </div>
 

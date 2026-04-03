@@ -87,9 +87,14 @@ export async function updatePortalSettingsAction(
   const portalEnabled = formData.get('portal_enabled') === 'on'
   const portalPassword = (formData.get('portal_password') as string) || null
 
+  const portalSlug = (formData.get('portal_slug') as string)?.trim() || null
+
   const updateData: Record<string, unknown> = { portal_enabled: portalEnabled }
   if (portalPassword !== null) {
     updateData.portal_password = portalPassword
+  }
+  if (portalSlug !== null) {
+    updateData.portal_slug = portalSlug
   }
 
   const { error } = await supabase.from('clients').update(updateData).eq('id', id)

@@ -7,6 +7,7 @@ import {
   Gauge,
   Users,
   FolderOpen,
+  Globe,
   FileText,
   ScrollText,
   DollarSign,
@@ -30,6 +31,7 @@ const navSections = [
     items: [
       { href: '/clients', label: 'Clients', icon: Users },
       { href: '/projects', label: 'Projects', icon: FolderOpen },
+      { href: '/portals', label: 'Portals', icon: Globe },
     ],
   },
   {
