@@ -25,7 +25,12 @@ export function ClientPortalTab({
 }) {
   const [isPending, startTransition] = useTransition()
   const [copied, setCopied] = useState(false)
-  const [slugInput, setSlugInput] = useState(client.portal_slug ?? '')
+  const autoSlug = (client.brand_name || client.name)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+  const [slugInput, setSlugInput] = useState(client.portal_slug ?? autoSlug)
   const router = useRouter()
 
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://creativewave.space'
@@ -102,6 +107,7 @@ export function ClientPortalTab({
               value={slugInput}
               onChange={e => setSlugInput(e.target.value)}
               placeholder="e.g. ben-builds"
+              autoComplete="off"
               className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm max-w-xs"
             />
             <p className="text-xs text-gray-400">Used in the portal URL. Lowercase, hyphens only.</p>
@@ -113,6 +119,7 @@ export function ClientPortalTab({
               name="portal_password"
               type="password"
               placeholder="Leave blank to keep existing"
+              autoComplete="new-password"
               className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm max-w-xs"
             />
             <p className="text-xs text-gray-400">Client must enter this to view their portal.</p>
