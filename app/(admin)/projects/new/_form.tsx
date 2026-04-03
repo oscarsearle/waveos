@@ -23,7 +23,13 @@ export function NewProjectForm({
   const [isPending, startTransition] = useTransition()
   const [shootTbc, setShootTbc] = useState(false)
   const [deadlineTbc, setDeadlineTbc] = useState(false)
+  const [clientId, setClientId] = useState(defaultClientId || '')
   const router = useRouter()
+
+  const selectedClientName = (() => {
+    const c = clients.find(c => c.id === clientId)
+    return c ? (c.brand_name || c.name) : ''
+  })()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -51,9 +57,12 @@ export function NewProjectForm({
           <Label className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3d5475' }}>
             Client
           </Label>
-          <Select name="client_id" defaultValue={defaultClientId || undefined}>
+          <input type="hidden" name="client_id" value={clientId} />
+          <Select value={clientId} onValueChange={setClientId}>
             <SelectTrigger className="h-9 text-sm border text-white" style={inputStyle}>
-              <SelectValue placeholder="Select a client…" />
+              <span className={selectedClientName ? 'text-white text-sm' : 'text-white/20 text-sm'}>
+                {selectedClientName || 'Select a client…'}
+              </span>
             </SelectTrigger>
             <SelectContent style={{ background: '#0c1420', borderColor: '#1a2a45' }}>
               {clients.map((c) => (

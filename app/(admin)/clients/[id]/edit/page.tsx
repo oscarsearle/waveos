@@ -21,7 +21,7 @@ export default async function EditClientPage({
 
   async function action(formData: FormData) {
     'use server'
-    await updateClientAction(id, formData)
+    return updateClientAction(id, formData)
   }
 
   return (

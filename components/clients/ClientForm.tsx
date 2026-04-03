@@ -1,36 +1,31 @@
 'use client'
 
 import { useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { PIPELINE_STAGES, PROJECT_TYPES } from '@/lib/constants'
 import type { Client } from '@/lib/types'
 import { toast } from 'sonner'
 
 type Props = {
   client?: Client
-  action: (formData: FormData) => Promise<void>
+  action: (formData: FormData) => Promise<{ id: string }>
   submitLabel?: string
 }
 
 export function ClientForm({ client, action, submitLabel = 'Save Client' }: Props) {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     startTransition(async () => {
       try {
-        await action(formData)
+        const { id } = await action(formData)
+        router.push(`/clients/${id}`)
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Something went wrong')
       }
@@ -50,58 +45,7 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
         </div>
       </section>
 
-      <section className="rounded-xl border border-gray-200 bg-white p-6">
-        <h2 className="text-sm font-semibold text-gray-900 mb-5">Project</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-gray-400 font-medium">Project Type</Label>
-            <Select name="project_type" defaultValue={client?.project_type ?? ''}>
-              <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-900 h-9 text-sm">
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent className="bg-white border-gray-200">
-                {PROJECT_TYPES.map((t) => (
-                  <SelectItem key={t} value={t} className="text-gray-700 focus:bg-gray-50 focus:text-gray-900">
-                    {t}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-xs text-gray-400 font-medium">Pipeline Status</Label>
-            <Select name="status" defaultValue={client?.status ?? 'Lead'}>
-              <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-900 h-9 text-sm">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-white border-gray-200">
-                {PIPELINE_STAGES.map((s) => (
-                  <SelectItem key={s} value={s} className="text-gray-700 focus:bg-gray-50 focus:text-gray-900">
-                    {s}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <Field
-            label="Project Value (£)"
-            name="project_value"
-            type="number"
-            defaultValue={client?.project_value?.toString() ?? ''}
-            placeholder="e.g. 2500"
-          />
-          <Field
-            label="Portal Slug"
-            name="portal_slug"
-            defaultValue={client?.portal_slug ?? ''}
-            placeholder="brand-name (auto-generated)"
-          />
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-gray-200 bg-white p-6">
+<section className="rounded-xl border border-gray-200 bg-white p-6">
         <h2 className="text-sm font-semibold text-gray-900 mb-5">Notes</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">

@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import type { PipelineStage } from '@/lib/constants'
 
 function toSlug(str: string): string {
@@ -42,7 +41,7 @@ export async function createClientAction(formData: FormData) {
   if (error) throw new Error(error.message)
 
   revalidatePath('/clients')
-  redirect(`/clients/${data.id}`)
+  return { id: data.id }
 }
 
 export async function updateClientAction(id: string, formData: FormData) {
@@ -58,12 +57,8 @@ export async function updateClientAction(id: string, formData: FormData) {
       email: (formData.get('email') as string) || null,
       phone: (formData.get('phone') as string) || null,
       instagram: (formData.get('instagram') as string) || null,
-      project_type: (formData.get('project_type') as string) || null,
-      status: formData.get('status') as PipelineStage,
-      project_value: formData.get('project_value') ? Number(formData.get('project_value')) : null,
       next_action: (formData.get('next_action') as string) || null,
       notes: (formData.get('notes') as string) || null,
-      portal_slug: (formData.get('portal_slug') as string) || null,
     })
     .eq('id', id)
 
@@ -71,7 +66,7 @@ export async function updateClientAction(id: string, formData: FormData) {
 
   revalidatePath(`/clients/${id}`)
   revalidatePath('/clients')
-  redirect(`/clients/${id}`)
+  return { id }
 }
 
 export async function updateClientStatusAction(id: string, status: PipelineStage) {
