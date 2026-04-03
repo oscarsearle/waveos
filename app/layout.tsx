@@ -20,10 +20,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "WaveOS — Creative Wave Media",
   description: "Internal operating system for Creative Wave Media.",
-  icons: {
-    icon: "/creativewave-logo-blue.png",
-    apple: "/creativewave-logo-blue.png",
-  },
 };
 
 export default function RootLayout({
