@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useTransition, Suspense } from 'react'
+import { useRouter } from 'next/navigation'
 import { createProposalAction } from '@/app/actions/proposals'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -15,13 +16,15 @@ function NewProposalForm() {
   const searchParams = useSearchParams()
   const clientId = searchParams.get('client_id') ?? ''
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     startTransition(async () => {
       try {
-        await createProposalAction(formData)
+        const { id } = await createProposalAction(formData)
+        router.push(`/proposals/${id}`)
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Error creating proposal')
       }

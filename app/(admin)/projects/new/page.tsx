@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useState, useTransition, Suspense } from 'react'
+import { useRouter } from 'next/navigation'
 import { createProjectAction } from '@/app/actions/projects'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,6 +20,7 @@ function NewProjectForm() {
   const [isPending, startTransition] = useTransition()
   const [shootTbc, setShootTbc] = useState(false)
   const [deadlineTbc, setDeadlineTbc] = useState(false)
+  const router = useRouter()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -27,7 +29,8 @@ function NewProjectForm() {
     if (deadlineTbc) formData.set('deadline', '')
     startTransition(async () => {
       try {
-        await createProjectAction(formData)
+        const { id } = await createProjectAction(formData)
+        router.push(`/projects/${id}`)
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Error creating project')
       }

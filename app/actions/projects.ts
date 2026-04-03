@@ -5,15 +5,17 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import type { PipelineStage } from '@/lib/constants'
 
-export async function createProjectAction(formData: FormData) {
+export async function createProjectAction(formData: FormData): Promise<{ id: string }> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Unauthorized')
 
+  const clientId = (formData.get('client_id') as string) || null
+
   const { data, error } = await supabase
     .from('projects')
     .insert({
-      client_id: formData.get('client_id') as string,
+      client_id: clientId,
       name: formData.get('name') as string,
       description: (formData.get('description') as string) || null,
       deliverables: (formData.get('deliverables') as string) || null,
@@ -28,7 +30,7 @@ export async function createProjectAction(formData: FormData) {
   if (error) throw new Error(error.message)
 
   revalidatePath('/projects')
-  redirect(`/projects/${data.id}`)
+  return { id: data.id }
 }
 
 export async function updateProjectAction(id: string, formData: FormData) {
