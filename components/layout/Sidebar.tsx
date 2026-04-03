@@ -70,7 +70,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="flex items-center px-4 py-4 border-b" style={{ borderColor: '#162035' }}>
         <Image
-          src="/creativewave-square_blue copy 2.png"
+          src="/creativewave-logo-blue.png"
           alt="Creative Wave"
           width={120}
           height={47}
