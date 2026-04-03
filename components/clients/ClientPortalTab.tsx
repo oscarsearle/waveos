@@ -1,6 +1,7 @@
 'use client'
 
 import { useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   updatePortalSettingsAction,
   addPortalUpdateAction,
@@ -24,10 +25,11 @@ export function ClientPortalTab({
 }) {
   const [isPending, startTransition] = useTransition()
   const [copied, setCopied] = useState(false)
+  const [slugInput, setSlugInput] = useState(client.portal_slug ?? '')
+  const router = useRouter()
 
-  const portalUrl = client.portal_slug
-    ? `${typeof window !== 'undefined' ? window.location.origin : 'https://creativewave.space'}/portal/${client.portal_slug}`
-    : null
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://creativewave.space'
+  const portalUrl = slugInput.trim() ? `${origin}/portal/${slugInput.trim()}` : null
 
   function copyPortalLink() {
     if (!portalUrl) return
@@ -43,6 +45,7 @@ export function ClientPortalTab({
       try {
         await updatePortalSettingsAction(client.id, formData)
         toast.success('Portal settings saved')
+        router.refresh()
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Error saving settings')
       }
@@ -96,7 +99,8 @@ export function ClientPortalTab({
             <Label className="text-xs text-gray-400 font-medium">Portal Slug</Label>
             <Input
               name="portal_slug"
-              defaultValue={client.portal_slug ?? ''}
+              value={slugInput}
+              onChange={e => setSlugInput(e.target.value)}
               placeholder="e.g. ben-builds"
               className="bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-300 h-9 text-sm max-w-xs"
             />
