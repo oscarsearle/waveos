@@ -12,42 +12,36 @@ function toSlug(str: string): string {
     .replace(/\s+/g, '-')
 }
 
-export async function createClientAction(formData: FormData) {
+export async function createClientAction(formData: FormData): Promise<{ id?: string; error?: string }> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Unauthorized')
-
-  const brandName = formData.get('brand_name') as string
-  const rawSlug = (formData.get('portal_slug') as string) || toSlug(brandName || (formData.get('name') as string))
+  if (!user) return { error: 'Unauthorized' }
 
   const { data, error } = await supabase
     .from('clients')
     .insert({
       name: formData.get('name') as string,
-      brand_name: brandName || null,
+      brand_name: (formData.get('brand_name') as string) || null,
       email: (formData.get('email') as string) || null,
       phone: (formData.get('phone') as string) || null,
       instagram: (formData.get('instagram') as string) || null,
-      project_type: (formData.get('project_type') as string) || null,
-      status: (formData.get('status') as PipelineStage) || 'Lead',
-      project_value: formData.get('project_value') ? Number(formData.get('project_value')) : null,
+      status: 'Lead',
       next_action: (formData.get('next_action') as string) || null,
       notes: (formData.get('notes') as string) || null,
-      portal_slug: rawSlug || null,
     })
     .select('id')
     .single()
 
-  if (error) throw new Error(error.message)
+  if (error) return { error: error.message }
 
   revalidatePath('/clients')
   return { id: data.id }
 }
 
-export async function updateClientAction(id: string, formData: FormData) {
+export async function updateClientAction(id: string, formData: FormData): Promise<{ id?: string; error?: string }> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Unauthorized')
+  if (!user) return { error: 'Unauthorized' }
 
   const { error } = await supabase
     .from('clients')
@@ -62,7 +56,7 @@ export async function updateClientAction(id: string, formData: FormData) {
     })
     .eq('id', id)
 
-  if (error) throw new Error(error.message)
+  if (error) return { error: error.message }
 
   revalidatePath(`/clients/${id}`)
   revalidatePath('/clients')

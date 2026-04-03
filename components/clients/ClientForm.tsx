@@ -11,7 +11,7 @@ import { toast } from 'sonner'
 
 type Props = {
   client?: Client
-  action: (formData: FormData) => Promise<{ id: string }>
+  action: (formData: FormData) => Promise<{ id?: string; error?: string }>
   submitLabel?: string
 }
 
@@ -23,11 +23,11 @@ export function ClientForm({ client, action, submitLabel = 'Save Client' }: Prop
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     startTransition(async () => {
-      try {
-        const { id } = await action(formData)
-        router.push(`/clients/${id}`)
-      } catch (err) {
-        toast.error(err instanceof Error ? err.message : 'Something went wrong')
+      const result = await action(formData)
+      if (result.error) {
+        toast.error(result.error)
+      } else if (result.id) {
+        router.push(`/clients/${result.id}`)
       }
     })
   }
