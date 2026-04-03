@@ -24,6 +24,7 @@ export function NewProjectForm({
   const [shootTbc, setShootTbc] = useState(false)
   const [deadlineTbc, setDeadlineTbc] = useState(false)
   const [clientId, setClientId] = useState(defaultClientId || '')
+  const handleClientChange = (value: string | null) => setClientId(value ?? '')
   const router = useRouter()
 
   const selectedClientName = (() => {
@@ -58,7 +59,7 @@ export function NewProjectForm({
             Client
           </Label>
           <input type="hidden" name="client_id" value={clientId} />
-          <Select value={clientId} onValueChange={setClientId}>
+          <Select value={clientId} onValueChange={handleClientChange}>
             <SelectTrigger className="h-9 text-sm border text-white" style={inputStyle}>
               <span className={selectedClientName ? 'text-white text-sm' : 'text-white/20 text-sm'}>
                 {selectedClientName || 'Select a client…'}
