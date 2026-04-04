@@ -50,24 +50,17 @@ export default async function DashboardPage() {
     count: allClients.filter((c) => c.status === stage).length,
   })).filter((s) => s.count > 0)
 
-  const greeting = () => {
-    const h = today.getHours()
-    if (h < 12) return 'Good morning'
-    if (h < 17) return 'Good afternoon'
-    return 'Good evening'
-  }
-
   return (
     <div className="p-8 max-w-5xl">
       {/* Header */}
       <div className="mb-10">
-        <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#2d4060' }}>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.14em] mb-3" style={{ color: '#2d4060' }}>
           {today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
         </p>
-        <h1 className="text-3xl font-bold" style={{ fontFamily: 'var(--font-poppins)', color: '#e8eeff', letterSpacing: '-0.03em' }}>
-          {greeting()}, Oscar.
+        <h1 className="text-4xl font-bold leading-tight" style={{ fontFamily: 'var(--font-poppins)', color: '#e8eeff', letterSpacing: '-0.03em' }}>
+          real moments, epic visuals.
         </h1>
-        <p className="text-sm mt-1.5" style={{ color: '#3d5475' }}>Here&apos;s what&apos;s happening across the business.</p>
+        <p className="text-sm mt-2" style={{ color: '#3d5475' }}>Here&apos;s what&apos;s happening across the business.</p>
       </div>
 
       {/* Stat cards */}

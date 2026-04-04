@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import {
   Gauge,
@@ -14,6 +15,10 @@ import {
   MessageSquareQuote,
   Settings,
   LogOut,
+  Camera,
+  PlayCircle,
+  Music2,
+  Briefcase,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -46,6 +51,10 @@ const navSections = [
     label: 'Content',
     items: [
       { href: '/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
+      { href: '/instagram', label: 'Instagram', icon: Camera },
+      { href: '/youtube', label: 'YouTube', icon: PlayCircle },
+      { href: '/tiktok', label: 'TikTok', icon: Music2 },
+      { href: '/linkedin', label: 'LinkedIn', icon: Briefcase },
     ],
   },
   {
@@ -56,9 +65,32 @@ const navSections = [
   },
 ]
 
+function getInitials(email: string): string {
+  const name = email.split('@')[0]
+  const parts = name.split(/[._-]/)
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase()
+  return name.slice(0, 2).toUpperCase()
+}
+
 export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
+  const [userEmail, setUserEmail] = useState<string>('')
+  const [userName, setUserName] = useState<string>('Oscar Searle')
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user?.email) {
+        setUserEmail(user.email)
+        if (user.user_metadata?.full_name) {
+          setUserName(user.user_metadata.full_name)
+        } else if (user.user_metadata?.name) {
+          setUserName(user.user_metadata.name)
+        }
+      }
+    })
+  }, [])
 
   async function handleSignOut() {
     const supabase = createClient()
@@ -67,8 +99,13 @@ export function Sidebar() {
     router.refresh()
   }
 
+  const initials = userEmail ? getInitials(userEmail) : 'OS'
+
   return (
-    <aside className="flex flex-col w-48 min-h-screen shrink-0 border-r" style={{ background: '#060a12', borderColor: '#162035' }}>
+    <aside
+      className="flex flex-col w-52 min-h-screen shrink-0 border-r"
+      style={{ background: '#060a12', borderColor: '#162035' }}
+    >
       {/* Logo */}
       <div className="flex items-center px-4 py-4 border-b" style={{ borderColor: '#162035' }}>
         <Image
@@ -78,6 +115,24 @@ export function Sidebar() {
           height={47}
           priority
         />
+      </div>
+
+      {/* User profile */}
+      <div className="flex items-center gap-3 px-4 py-4 border-b" style={{ borderColor: '#162035' }}>
+        <div
+          className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+          style={{ background: 'rgba(0,183,255,0.15)', color: '#00B7FF', border: '1px solid rgba(0,183,255,0.25)' }}
+        >
+          {initials}
+        </div>
+        <div className="min-w-0">
+          <p className="text-[12px] font-semibold truncate" style={{ color: '#e8eeff', fontFamily: 'var(--font-poppins)' }}>
+            {userName}
+          </p>
+          <p className="text-[10px] truncate" style={{ color: '#3d5475' }}>
+            Signed into Wave OS
+          </p>
+        </div>
       </div>
 
       {/* Nav */}
@@ -101,7 +156,11 @@ export function Sidebar() {
                       ? 'text-[#00B7FF]'
                       : 'text-white/40 hover:text-white/80 hover:bg-white/[0.04]'
                   )}
-                  style={active ? { background: 'rgba(0,183,255,0.08)', fontFamily: 'var(--font-poppins)' } : { fontFamily: 'var(--font-poppins)' }}
+                  style={
+                    active
+                      ? { background: 'rgba(0,183,255,0.08)', fontFamily: 'var(--font-poppins)' }
+                      : { fontFamily: 'var(--font-poppins)' }
+                  }
                 >
                   <Icon
                     className="w-[15px] h-[15px] shrink-0 transition-colors"
