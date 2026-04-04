@@ -15,9 +15,9 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: '#05080f' }}>
+    <div className="flex min-h-screen" style={{ background: 'linear-gradient(135deg, #05080f 0%, #061428 40%, #0a2550 100%)' }}>
       <Sidebar />
-      <main className="flex-1 overflow-auto" style={{ background: '#05080f' }}>
+      <main className="flex-1 overflow-auto" style={{ background: 'transparent' }}>
         {children}
       </main>
     </div>

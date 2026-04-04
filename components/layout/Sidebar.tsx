@@ -57,12 +57,6 @@ const navSections = [
       { href: '/linkedin', label: 'LinkedIn', icon: Briefcase },
     ],
   },
-  {
-    label: null,
-    items: [
-      { href: '/settings', label: 'Settings', icon: Settings },
-    ],
-  },
 ]
 
 function getInitials(email: string): string {
@@ -109,7 +103,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="flex items-center px-4 py-4 border-b" style={{ borderColor: '#162035' }}>
         <Image
-          src="/creativewave-logo-blue.png"
+          src="/creativewave-white-main.png"
           alt="Creative Wave"
           width={120}
           height={47}
@@ -174,8 +168,16 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Sign out */}
-      <div className="px-3 pb-5 pt-3 border-t" style={{ borderColor: '#162035' }}>
+      {/* Settings + Sign out */}
+      <div className="px-3 pb-5 pt-3 border-t flex flex-col gap-0.5" style={{ borderColor: '#162035' }}>
+        <Link
+          href="/settings"
+          className={`flex items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium transition-all duration-150 ${pathname === '/settings' ? 'text-[#00B7FF]' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.04]'}`}
+          style={pathname === '/settings' ? { background: 'rgba(0,183,255,0.08)', fontFamily: 'var(--font-poppins)' } : { fontFamily: 'var(--font-poppins)' }}
+        >
+          <Settings className="w-[15px] h-[15px] shrink-0" style={{ color: pathname === '/settings' ? '#00B7FF' : undefined }} />
+          Settings
+        </Link>
         <button
           onClick={handleSignOut}
           className="flex w-full items-center gap-2.5 px-2 py-1.5 rounded text-[13px] font-medium text-white/30 hover:text-white/70 hover:bg-white/[0.04] transition-all"
