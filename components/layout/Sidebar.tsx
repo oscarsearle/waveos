@@ -105,9 +105,10 @@ export function Sidebar() {
         <Image
           src="/wave-os-logo copy 2.svg"
           alt="Wave OS"
-          width={110}
-          height={21}
+          width={160}
+          height={30}
           priority
+          className="w-full h-auto"
         />
       </div>
 
