@@ -19,6 +19,7 @@ import {
   PlayCircle,
   Music2,
   Briefcase,
+  BrainCircuit,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -29,6 +30,7 @@ const navSections = [
     label: null,
     items: [
       { href: '/dashboard', label: 'Control Room', icon: Gauge },
+      { href: '/context-hub', label: 'Context Hub', icon: BrainCircuit },
     ],
   },
   {
