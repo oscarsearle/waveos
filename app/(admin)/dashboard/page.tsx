@@ -51,7 +51,7 @@ export default async function DashboardPage() {
   })).filter((s) => s.count > 0)
 
   return (
-    <div className="p-8 max-w-5xl">
+    <div className="p-6 md:p-8 w-full">
       {/* Header */}
       <div className="mb-10">
         <p className="text-[10px] font-semibold uppercase tracking-[0.14em] mb-3" style={{ color: '#2d4060' }}>
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[
           { label: 'Active Clients', value: activeClients.length, icon: Users, href: '/clients' },
           { label: 'Proposals Out', value: sentProposals.length, icon: FileText, href: '/proposals' },
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Pipeline */}
         <div className="col-span-1 rounded-xl p-5 border" style={{ background: '#0b1120', borderColor: '#162035' }}>
           <div className="flex items-center justify-between mb-5">
@@ -110,7 +110,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Right column */}
-        <div className="col-span-2 flex flex-col gap-4">
+        <div className="lg:col-span-2 flex flex-col gap-4">
           {/* Upcoming shoots */}
           <div className="rounded-xl p-5 border" style={{ background: '#0b1120', borderColor: '#162035' }}>
             <div className="flex items-center justify-between mb-4">
@@ -165,7 +165,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent clients */}
-        <div className="col-span-3 rounded-xl p-5 border" style={{ background: '#0b1120', borderColor: '#162035' }}>
+        <div className="lg:col-span-3 rounded-xl p-5 border" style={{ background: '#0b1120', borderColor: '#162035' }}>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#3d5475' }}>Recent Clients</h2>
             <Link href="/clients" className="text-[11px] hover:text-[#00B7FF] transition-colors flex items-center gap-1" style={{ color: '#3d5475' }}>
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
           {allClients.slice(0, 6).length === 0 ? (
             <p className="text-[13px]" style={{ color: '#3d5475' }}>No clients yet.</p>
           ) : (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {allClients.slice(0, 6).map((c) => (
                 <Link
                   key={c.id}
