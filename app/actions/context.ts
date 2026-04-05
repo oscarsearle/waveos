@@ -2,9 +2,9 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const EXTRACT_SYSTEM = `You are a data extraction engine for Wave OS, a business management system for a creative agency (Creative Wave Media).
 
@@ -104,18 +104,20 @@ export async function parseContextAction(
 
   if (fetchErr || !ctx) return { error: 'Context not found' }
 
-  const message = await anthropic.messages.create({
-    model: 'claude-opus-4-5',
-    max_tokens: 1024,
-    system: EXTRACT_SYSTEM,
-    messages: [{ role: 'user', content: ctx.raw_text }],
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-1.5-flash',
+    systemInstruction: EXTRACT_SYSTEM,
   })
 
-  const raw = message.content[0].type === 'text' ? message.content[0].text : ''
+  const result = await model.generateContent(ctx.raw_text)
+  const raw = result.response.text().trim()
+
+  // Strip markdown code fences if present
+  const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/, '').trim()
 
   let extracted: Record<string, unknown>
   try {
-    extracted = JSON.parse(raw)
+    extracted = JSON.parse(cleaned)
   } catch {
     return { error: 'Failed to parse extracted data' }
   }

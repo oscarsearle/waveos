@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createClient } from '@/lib/supabase/server'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const SYSTEM_PROMPT = `You are the internal AI operator for Wave OS — a business management system built for Creative Wave Media, a creative agency.
 
@@ -32,6 +32,8 @@ Rules:
 - Only include one action block per response.
 - If no action is needed, don't include an action block.`
 
+type MessageRole = 'user' | 'model'
+
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -54,22 +56,27 @@ export async function POST(req: NextRequest) {
     ? `${SYSTEM_PROMPT}\n\n---\n\n${contextBlock}`
     : SYSTEM_PROMPT
 
-  const stream = anthropic.messages.stream({
-    model: 'claude-opus-4-5',
-    max_tokens: 2048,
-    system: systemWithContext,
-    messages,
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-1.5-flash',
+    systemInstruction: systemWithContext,
   })
+
+  // Convert messages to Gemini format (role must be 'user' | 'model')
+  // Last message is the current user turn; history is everything before
+  const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
+    role: (m.role === 'assistant' ? 'model' : 'user') as MessageRole,
+    parts: [{ text: m.content }],
+  }))
+  const lastMessage = messages[messages.length - 1]
+
+  const chat = model.startChat({ history })
+  const result = await chat.sendMessageStream(lastMessage.content)
 
   const readable = new ReadableStream({
     async start(controller) {
-      for await (const event of stream) {
-        if (
-          event.type === 'content_block_delta' &&
-          event.delta.type === 'text_delta'
-        ) {
-          controller.enqueue(new TextEncoder().encode(event.delta.text))
-        }
+      for await (const chunk of result.stream) {
+        const text = chunk.text()
+        if (text) controller.enqueue(new TextEncoder().encode(text))
       }
       controller.close()
     },
