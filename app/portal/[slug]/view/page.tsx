@@ -1,6 +1,7 @@
 import { checkPortalAuth, getPortalData } from '@/app/actions/portal'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const STEPS = ['Proposal', 'Agreement', 'Pre-Production', 'Production', 'Post-Production', 'Wrap & Invoice']
 
@@ -49,10 +50,13 @@ export default async function PortalViewPage({
 
       {/* Header */}
       <header style={{ borderBottom: '1px solid #162035', padding: '14px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(5,8,15,0.6)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '28px', height: '28px', background: 'rgba(0,183,255,0.12)', border: '1px solid rgba(0,183,255,0.2)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>≋</div>
-          <span style={{ fontSize: '13px', fontWeight: 700, color: '#e8eeff', letterSpacing: '0.04em' }}>Creative Wave Media</span>
-        </div>
+        <Image
+          src="/wave-os-logo copy 2.svg"
+          alt="Wave OS"
+          width={100}
+          height={20}
+          priority
+        />
         <div style={{ fontSize: '12px', color: '#3d5475' }}>
           {displayName}{mainProject ? ` · ${mainProject.name}` : ''}
         </div>
