@@ -1,8 +1,9 @@
 import { checkPortalAuth, getPortalData } from '@/app/actions/portal'
 import { redirect, notFound } from 'next/navigation'
-import { Waves, ExternalLink } from 'lucide-react'
+import { Waves, ExternalLink, FileText } from 'lucide-react'
 import { PIPELINE_STAGES, STAGE_COLOURS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 export default async function PortalViewPage({
   params,
@@ -20,7 +21,7 @@ export default async function PortalViewPage({
   const data = await getPortalData(slug)
   if (!data) notFound()
 
-  const { client, projects, links, updates } = data
+  const { client, projects, links, updates, proposals } = data
   const displayName = client.brand_name || client.name
 
   // Pipeline progress
@@ -58,6 +59,42 @@ export default async function PortalViewPage({
                   </span>
                 )
               })()}
+            </div>
+          </section>
+        )}
+
+        {/* Proposals */}
+        {proposals.length > 0 && (
+          <section className="rounded-xl border border-white/[0.07] bg-zinc-900/40 p-6 mb-5">
+            <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wide mb-5">
+              {proposals.length === 1 ? 'Proposal' : 'Proposals'}
+            </h2>
+            <div className="flex flex-col gap-3">
+              {proposals.map((proposal) => (
+                <Link
+                  key={proposal.id}
+                  href={`/portal/${slug}/proposal/${proposal.id}`}
+                  className="flex items-center justify-between rounded-lg border border-white/[0.05] bg-zinc-900/60 px-4 py-4 hover:bg-white/[0.04] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                      <FileText className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-zinc-200">{proposal.title}</p>
+                      {proposal.price && (
+                        <p className="text-xs text-zinc-500 mt-0.5">${Number(proposal.price).toLocaleString()}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400">
+                      View Proposal
+                    </span>
+                    <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                  </div>
+                </Link>
+              ))}
             </div>
           </section>
         )}

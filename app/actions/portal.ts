@@ -49,7 +49,7 @@ export async function getPortalData(slug: string) {
 
   if (!client || !client.portal_enabled) return null
 
-  const [{ data: projects }, { data: links }, { data: updates }] = await Promise.all([
+  const [{ data: projects }, { data: links }, { data: updates }, { data: proposals }] = await Promise.all([
     supabase
       .from('projects')
       .select('id, name, deliverables, stage, shoot_date, deadline')
@@ -66,6 +66,12 @@ export async function getPortalData(slug: string) {
       .select('id, message, created_at')
       .eq('client_id', client.id)
       .order('created_at', { ascending: false }),
+    supabase
+      .from('proposals')
+      .select('id, title, status, price')
+      .eq('client_id', client.id)
+      .not('status', 'eq', 'Draft')
+      .order('created_at', { ascending: false }),
   ])
 
   return {
@@ -78,6 +84,7 @@ export async function getPortalData(slug: string) {
     projects: projects ?? [],
     links: links ?? [],
     updates: updates ?? [],
+    proposals: proposals ?? [],
   }
 }
 
