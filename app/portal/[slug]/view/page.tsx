@@ -18,22 +18,6 @@ function getStep(status: string): number {
   }
 }
 
-function Badge({ type }: { type: 'pending' | 'active' | 'done' | 'review' }) {
-  const styles = {
-    pending: { background: 'rgba(90,99,88,0.10)', color: '#6A7568' },
-    active:  { background: 'rgba(5,79,153,0.08)',  color: '#054F99' },
-    done:    { background: 'rgba(22,130,60,0.10)',  color: '#146830' },
-    review:  { background: 'rgba(180,110,10,0.10)', color: '#8A5500' },
-  }
-  const labels = { pending: 'Pending', active: 'In Progress', done: 'Done', review: 'In Review' }
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 11px', borderRadius: '100px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', ...styles[type] }}>
-      <span style={{ fontSize: '7px' }}>●</span>
-      {labels[type]}
-    </span>
-  )
-}
-
 export default async function PortalViewPage({
   params,
 }: {
@@ -54,238 +38,214 @@ export default async function PortalViewPage({
   const mainProject = projects[0]
   const activeProposals = proposals.filter((p: { status: string }) => p.status !== 'Draft')
 
-  const S = {
-    page:    { fontFamily: "'Poppins', system-ui, sans-serif", background: '#E7ECE7', color: '#1E1E1E', minHeight: '100vh', lineHeight: '1.6', WebkitFontSmoothing: 'antialiased' } as React.CSSProperties,
-    card:    { background: '#FFFFFF', border: '1px solid #D2DAD2', borderRadius: '20px', padding: '28px 32px' } as React.CSSProperties,
-    secIcon: { width: '36px', height: '36px', background: '#FFFFFF', border: '1.5px solid #D2DAD2', borderRadius: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', flexShrink: 0 } as React.CSSProperties,
-    secHead: { display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' } as React.CSSProperties,
-    btnPrimary: { display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '11px 24px', borderRadius: '100px', fontSize: '13px', fontWeight: 600, background: '#054F99', color: '#FFFFFF', textDecoration: 'none' } as React.CSSProperties,
-    btnGhost: { display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '9px 20px', borderRadius: '100px', fontSize: '13px', fontWeight: 600, color: '#054F99', border: '1.5px solid #054F99', background: 'transparent', textDecoration: 'none' } as React.CSSProperties,
-  }
-
   return (
-    <div style={S.page}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'); *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }`}</style>
+    <div style={{
+      fontFamily: 'var(--font-poppins, "Poppins", system-ui, sans-serif)',
+      background: 'linear-gradient(135deg, #05080f 0%, #061428 40%, #0a2550 100%)',
+      minHeight: '100vh',
+      color: '#e8eeff',
+      WebkitFontSmoothing: 'antialiased',
+    }}>
 
-      {/* Top bar */}
-      <header style={{ background: '#FFFFFF', borderBottom: '1px solid #D2DAD2', padding: '14px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 100 }}>
+      {/* Header */}
+      <header style={{ borderBottom: '1px solid #162035', padding: '14px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(5,8,15,0.6)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '32px', height: '32px', background: '#054F99', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '15px' }}>≋</div>
-          <span style={{ fontSize: '13px', fontWeight: 800, color: '#1E1E1E', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Creative Wave Media</span>
+          <div style={{ width: '28px', height: '28px', background: 'rgba(0,183,255,0.12)', border: '1px solid rgba(0,183,255,0.2)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>≋</div>
+          <span style={{ fontSize: '13px', fontWeight: 700, color: '#e8eeff', letterSpacing: '0.04em' }}>Creative Wave Media</span>
         </div>
-        <div style={{ fontSize: '12px', fontWeight: 500, color: 'rgba(30,30,30,0.55)' }}>
+        <div style={{ fontSize: '12px', color: '#3d5475' }}>
           {displayName}{mainProject ? ` · ${mainProject.name}` : ''}
         </div>
       </header>
 
-      {/* Hero */}
-      <section style={{ maxWidth: '920px', margin: '0 auto', padding: '64px 40px 48px' }}>
-        <div style={{ display: 'inline-block', fontSize: '11px', fontWeight: 600, letterSpacing: '0.5px', color: '#1E1E1E', border: '1.5px solid #D2DAD2', borderRadius: '100px', padding: '4px 14px', marginBottom: '20px' }}>
-          Client Portal
-        </div>
-        <h1 style={{ fontSize: '42px', fontWeight: 900, letterSpacing: '-1.5px', lineHeight: 1.1, color: '#1E1E1E', marginBottom: '16px', textTransform: 'lowercase' }}>
-          welcome, {firstName.toLowerCase()}.
-        </h1>
-        <p style={{ fontSize: '16px', color: 'rgba(30,30,30,0.55)', maxWidth: '580px', lineHeight: 1.7 }}>
-          Everything for <strong style={{ color: '#1E1E1E', fontWeight: 600 }}>{mainProject?.name || displayName}</strong> lives right here — your proposal, project details, files, and updates. Bookmark this page and check back any time.
-        </p>
-      </section>
+      <main style={{ maxWidth: '860px', margin: '0 auto', padding: '48px 40px 96px' }}>
 
-      {/* Timeline */}
-      <div style={{ maxWidth: '920px', margin: '0 auto 56px', padding: '0 40px' }}>
-        <div style={{ display: 'flex', background: '#FFFFFF', border: '1px solid #D2DAD2', borderRadius: '20px', overflow: 'hidden' }}>
+        {/* Hero */}
+        <div style={{ marginBottom: '48px' }}>
+          <div style={{ display: 'inline-block', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#00B7FF', background: 'rgba(0,183,255,0.08)', border: '1px solid rgba(0,183,255,0.2)', borderRadius: '100px', padding: '4px 12px', marginBottom: '16px' }}>
+            Client Portal
+          </div>
+          <h1 style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#e8eeff', marginBottom: '12px' }}>
+            Welcome, {firstName}.
+          </h1>
+          <p style={{ fontSize: '15px', color: '#3d5475', maxWidth: '520px', lineHeight: 1.7 }}>
+            Everything for <span style={{ color: '#8ba4c8', fontWeight: 600 }}>{mainProject?.name || displayName}</span> lives here — your proposal, project details, shared files, and updates. Bookmark this page and check back any time.
+          </p>
+        </div>
+
+        {/* Timeline */}
+        <div style={{ background: 'rgba(11,17,32,0.7)', border: '1px solid #162035', borderRadius: '16px', overflow: 'hidden', marginBottom: '40px', display: 'flex' }}>
           {STEPS.map((step, i) => {
             const n = i + 1
             const isDone   = n < currentStep
             const isActive = n === currentStep
             return (
-              <div key={step} style={{ flex: 1, padding: '16px 10px', textAlign: 'center', background: isActive ? 'rgba(5,79,153,0.08)' : 'transparent', borderRight: i < STEPS.length - 1 ? '1px solid #D2DAD2' : 'none' }}>
-                <div style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: isDone ? '#146830' : isActive ? '#054F99' : 'rgba(30,30,30,0.35)', marginBottom: '3px' }}>
+              <div key={step} style={{ flex: 1, padding: '14px 8px', textAlign: 'center', background: isActive ? 'rgba(0,183,255,0.07)' : 'transparent', borderRight: i < STEPS.length - 1 ? '1px solid #162035' : 'none' }}>
+                <div style={{ fontSize: '9px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: isDone ? '#00B7FF' : isActive ? '#00B7FF' : '#2d4060', marginBottom: '3px' }}>
                   {String(n).padStart(2, '0')}
                 </div>
-                <div style={{ fontSize: '12px', fontWeight: isActive ? 700 : 600, color: isDone ? '#146830' : isActive ? '#054F99' : 'rgba(30,30,30,0.55)' }}>
+                <div style={{ fontSize: '11px', fontWeight: isActive ? 700 : 500, color: isDone ? '#00B7FF' : isActive ? '#00B7FF' : '#3d5475' }}>
                   {step}
                 </div>
+                {isDone && (
+                  <div style={{ fontSize: '9px', color: '#00B7FF', marginTop: '2px', opacity: 0.7 }}>✓</div>
+                )}
               </div>
             )
           })}
         </div>
-      </div>
 
-      {/* Main */}
-      <main style={{ maxWidth: '920px', margin: '0 auto', padding: '0 40px 96px', display: 'flex', flexDirection: 'column', gap: '52px' }}>
+        {/* Sections */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-        {/* 1 — Proposal */}
-        <section>
-          <div style={S.secHead}>
-            <div style={S.secIcon}>📄</div>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: 700 }}>Proposal</div>
-              <div style={{ fontSize: '13px', color: 'rgba(30,30,30,0.55)', marginTop: '1px' }}>Scope, deliverables, timeline & investment</div>
+          {/* Proposal */}
+          <div style={{ background: 'rgba(11,17,32,0.7)', border: '1px solid #162035', borderRadius: '16px', padding: '28px 32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+              <div style={{ width: '32px', height: '32px', background: 'rgba(0,183,255,0.08)', border: '1px solid rgba(0,183,255,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>📄</div>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#e8eeff' }}>Proposal</div>
+                <div style={{ fontSize: '12px', color: '#3d5475' }}>Scope, deliverables, timeline & investment</div>
+              </div>
             </div>
-          </div>
 
-          {activeProposals.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {activeProposals.map((p: { id: string; title: string; status: string; price: number | null }) => (
-                <div key={p.id} style={S.card}>
-                  <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '8px' }}>Project Proposal — {p.title}</div>
-                  <div style={{ fontSize: '14px', color: 'rgba(30,30,30,0.55)', lineHeight: 1.7, marginBottom: '22px' }}>
-                    This document covers everything we discussed: the creative concept, what we'll deliver, the production timeline, and the total investment.
-                    {p.price && <> Total investment: <strong style={{ color: '#1E1E1E' }}>${Number(p.price).toLocaleString()}</strong>.</>}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Badge type="done" />
-                    <Link href={`/portal/${slug}/proposal/${p.id}`} style={S.btnPrimary}>
-                      📄 View Proposal
+            {activeProposals.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {activeProposals.map((p: { id: string; title: string; price: number | null }) => (
+                  <div key={p.id} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2a45', borderRadius: '12px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+                    <div>
+                      <div style={{ fontSize: '14px', fontWeight: 600, color: '#e8eeff', marginBottom: '4px' }}>{p.title}</div>
+                      {p.price && <div style={{ fontSize: '12px', color: '#3d5475' }}>Investment: ${Number(p.price).toLocaleString()}</div>}
+                    </div>
+                    <Link href={`/portal/${slug}/proposal/${p.id}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '9px 20px', borderRadius: '100px', fontSize: '12px', fontWeight: 600, background: '#054F99', color: '#fff', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                      View Proposal →
                     </Link>
                   </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ fontSize: '13px', color: '#3d5475' }}>Your proposal is being prepared and will appear here once it's ready.</p>
+            )}
+          </div>
+
+          {/* Project Details */}
+          {projects.length > 0 && (
+            <div style={{ background: 'rgba(11,17,32,0.7)', border: '1px solid #162035', borderRadius: '16px', padding: '28px 32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <div style={{ width: '32px', height: '32px', background: 'rgba(0,183,255,0.08)', border: '1px solid rgba(0,183,255,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>🎬</div>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#e8eeff' }}>Project Details</div>
+                  <div style={{ fontSize: '12px', color: '#3d5475' }}>Dates, deliverables & what we're creating</div>
+                </div>
+              </div>
+              {projects.map((project: { id: string; name: string; shoot_date: string | null; deadline: string | null; deliverables: string | null }) => (
+                <div key={project.id}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#8ba4c8', marginBottom: '14px' }}>{project.name}</div>
+                  {(project.shoot_date || project.deadline) && (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: project.deliverables ? '20px' : '0' }}>
+                      {project.shoot_date && (
+                        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2a45', borderRadius: '10px', padding: '14px 16px' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#2d4060', marginBottom: '5px' }}>Shoot Date</div>
+                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#e8eeff' }}>{new Date(project.shoot_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                        </div>
+                      )}
+                      {project.deadline && (
+                        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2a45', borderRadius: '10px', padding: '14px 16px' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#2d4060', marginBottom: '5px' }}>Delivery</div>
+                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#e8eeff' }}>{new Date(project.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {project.deliverables && (
+                    <div>
+                      <div style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#2d4060', marginBottom: '10px' }}>Deliverables</div>
+                      <ul style={{ listStyle: 'none' }}>
+                        {project.deliverables.split('\n').filter(Boolean).map((d: string, i: number) => (
+                          <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', fontSize: '13px', color: '#8ba4c8', borderBottom: '1px solid #162035' }}>
+                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#00B7FF', opacity: 0.5, flexShrink: 0 }} />
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               ))}
-            </div>
-          ) : (
-            <div style={S.card}>
-              <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '8px' }}>Proposal</div>
-              <div style={{ fontSize: '14px', color: 'rgba(30,30,30,0.55)', lineHeight: 1.7, marginBottom: '22px' }}>
-                Your proposal is being prepared and will appear here once it's ready.
-              </div>
-              <Badge type="pending" />
             </div>
           )}
-        </section>
 
-        {/* 2 — Project Details */}
-        {projects.length > 0 && (
-          <section>
-            <div style={S.secHead}>
-              <div style={S.secIcon}>🎬</div>
-              <div>
-                <div style={{ fontSize: '18px', fontWeight: 700 }}>Project Details</div>
-                <div style={{ fontSize: '13px', color: 'rgba(30,30,30,0.55)', marginTop: '1px' }}>Dates, deliverables & what we're making</div>
-              </div>
-            </div>
-            {projects.map((project: { id: string; name: string; shoot_date: string | null; deadline: string | null; deliverables: string | null }) => (
-              <div key={project.id} style={{ ...S.card, marginBottom: '12px' }}>
-                <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '16px' }}>{project.name}</div>
-                {(project.shoot_date || project.deadline) && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: project.deliverables ? '20px' : '0' }}>
-                    {project.shoot_date && (
-                      <div>
-                        <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: 'rgba(30,30,30,0.35)', marginBottom: '4px' }}>Shoot Date</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600 }}>{new Date(project.shoot_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                      </div>
-                    )}
-                    {project.deadline && (
-                      <div>
-                        <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: 'rgba(30,30,30,0.35)', marginBottom: '4px' }}>Delivery</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600 }}>{new Date(project.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                      </div>
-                    )}
-                  </div>
-                )}
-                {project.deliverables && (
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', color: 'rgba(30,30,30,0.35)', marginBottom: '8px' }}>Deliverables</div>
-                    <ul style={{ listStyle: 'none' }}>
-                      {project.deliverables.split('\n').filter(Boolean).map((d: string, i: number) => (
-                        <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', fontSize: '14px', color: 'rgba(30,30,30,0.7)', borderBottom: '1px solid #D2DAD2' }}>
-                          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#054F99', opacity: 0.4, flexShrink: 0 }} />
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            ))}
-          </section>
-        )}
-
-        {/* 3 — Files & Links */}
-        {links.length > 0 && (
-          <section>
-            <div style={S.secHead}>
-              <div style={S.secIcon}>🗂️</div>
-              <div>
-                <div style={{ fontSize: '18px', fontWeight: 700 }}>Files & Links</div>
-                <div style={{ fontSize: '13px', color: 'rgba(30,30,30,0.55)', marginTop: '1px' }}>Shared documents, drafts & deliverables</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {links.map((link: { id: string; label: string; url: string }) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#FFFFFF', border: '1px solid #D2DAD2', borderRadius: '14px', padding: '16px 24px', textDecoration: 'none' }}
-                >
-                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#1E1E1E' }}>{link.label}</span>
-                  <span style={S.btnGhost}>View →</span>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 4 — Updates */}
-        {updates.length > 0 && (
-          <section>
-            <div style={S.secHead}>
-              <div style={S.secIcon}>💬</div>
-              <div>
-                <div style={{ fontSize: '18px', fontWeight: 700 }}>Updates</div>
-                <div style={{ fontSize: '13px', color: 'rgba(30,30,30,0.55)', marginTop: '1px' }}>Latest from Creative Wave</div>
-              </div>
-            </div>
-            <div style={{ background: '#FFFFFF', border: '1px solid #D2DAD2', borderRadius: '20px', overflow: 'hidden' }}>
-              {updates.map((update: { id: string; message: string; created_at: string }, i: number) => (
-                <div key={update.id} style={{ padding: '20px 32px', borderBottom: i < updates.length - 1 ? '1px solid #D2DAD2' : 'none' }}>
-                  <p style={{ fontSize: '14px', color: '#1E1E1E', lineHeight: 1.65, marginBottom: '4px' }}>{update.message}</p>
-                  <p style={{ fontSize: '12px', color: 'rgba(30,30,30,0.35)' }}>{new Date(update.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          {/* Files & Links */}
+          {links.length > 0 && (
+            <div style={{ background: 'rgba(11,17,32,0.7)', border: '1px solid #162035', borderRadius: '16px', padding: '28px 32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <div style={{ width: '32px', height: '32px', background: 'rgba(0,183,255,0.08)', border: '1px solid rgba(0,183,255,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>🗂️</div>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#e8eeff' }}>Files & Links</div>
+                  <div style={{ fontSize: '12px', color: '#3d5475' }}>Shared documents, drafts & deliverables</div>
                 </div>
-              ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {links.map((link: { id: string; label: string; url: string }) => (
+                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.02)', border: '1px solid #1a2a45', borderRadius: '10px', padding: '14px 18px', textDecoration: 'none' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#e8eeff' }}>{link.label}</span>
+                    <span style={{ fontSize: '12px', color: '#00B7FF' }}>Open →</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </section>
-        )}
+          )}
 
-        {/* 5 — Testimonial */}
-        <section>
-          <div style={S.secHead}>
-            <div style={S.secIcon}>⭐</div>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: 700 }}>Project Wrap</div>
-              <div style={{ fontSize: '13px', color: 'rgba(30,30,30,0.55)', marginTop: '1px' }}>We'd love to hear how it went</div>
+          {/* Updates */}
+          {updates.length > 0 && (
+            <div style={{ background: 'rgba(11,17,32,0.7)', border: '1px solid #162035', borderRadius: '16px', padding: '28px 32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <div style={{ width: '32px', height: '32px', background: 'rgba(0,183,255,0.08)', border: '1px solid rgba(0,183,255,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>💬</div>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#e8eeff' }}>Updates</div>
+                  <div style={{ fontSize: '12px', color: '#3d5475' }}>Latest from Creative Wave</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {updates.map((update: { id: string; message: string; created_at: string }, i: number) => (
+                  <div key={update.id} style={{ padding: '14px 0', borderBottom: i < updates.length - 1 ? '1px solid #162035' : 'none' }}>
+                    <p style={{ fontSize: '13px', color: '#8ba4c8', lineHeight: 1.65, marginBottom: '4px' }}>{update.message}</p>
+                    <p style={{ fontSize: '11px', color: '#2d4060' }}>{new Date(update.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <div style={{ background: '#054F99', border: '1px solid #054F99', borderRadius: '20px', padding: '28px 32px' }}>
-            <div style={{ fontSize: '15px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>Share Your Experience</div>
-            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: '22px' }}>
-              Once you've received your final files and you're happy with everything, a short testimonial goes a long way — even just two or three sentences about working together. Takes less than two minutes.
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 11px', borderRadius: '100px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px', background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)' }}>
-                <span style={{ fontSize: '7px' }}>●</span> After final delivery
-              </span>
-              <a href="mailto:oscar@creativewave.nz?subject=Testimonial" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '11px 24px', borderRadius: '100px', fontSize: '13px', fontWeight: 600, background: '#FFFFFF', color: '#054F99', textDecoration: 'none' }}>
-                ⭐ Leave a Testimonial
-              </a>
-            </div>
-          </div>
-        </section>
+          )}
 
-        {/* Contact note */}
-        <div style={{ borderRadius: '14px', padding: '16px 20px', fontSize: '13px', lineHeight: 1.65, background: '#FFFFFF', border: '1px solid #D2DAD2', color: 'rgba(30,30,30,0.55)' }}>
-          💬 <strong style={{ color: '#1E1E1E', fontWeight: 600 }}>Got a question?</strong> Get in touch at{' '}
-          <a href="mailto:oscar@creativewave.nz" style={{ color: '#054F99', fontWeight: 600, textDecoration: 'none' }}>oscar@creativewave.nz</a>
+          {/* Testimonial */}
+          <div style={{ background: 'rgba(5,79,153,0.15)', border: '1px solid rgba(0,183,255,0.15)', borderRadius: '16px', padding: '28px 32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+              <div style={{ width: '32px', height: '32px', background: 'rgba(0,183,255,0.1)', border: '1px solid rgba(0,183,255,0.2)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', flexShrink: 0 }}>⭐</div>
+              <div>
+                <div style={{ fontSize: '14px', fontWeight: 700, color: '#e8eeff' }}>Project Wrap</div>
+                <div style={{ fontSize: '12px', color: '#3d5475' }}>We'd love to hear how it went</div>
+              </div>
+            </div>
+            <p style={{ fontSize: '13px', color: '#3d5475', lineHeight: 1.7, marginBottom: '20px' }}>
+              Once you've received your final files and are happy with everything, a short testimonial goes a long way — even just two or three sentences about working together. It takes less than two minutes and helps other businesses understand what Creative Wave is actually like to work with.
+            </p>
+            <a href="mailto:oscar@creativewave.nz?subject=Testimonial" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '9px 20px', borderRadius: '100px', fontSize: '12px', fontWeight: 600, background: 'rgba(0,183,255,0.1)', color: '#00B7FF', border: '1px solid rgba(0,183,255,0.2)', textDecoration: 'none' }}>
+              Leave a Testimonial →
+            </a>
+          </div>
+
+          {/* Contact */}
+          <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid #162035', borderRadius: '12px', padding: '16px 20px', fontSize: '13px', color: '#3d5475', lineHeight: 1.65 }}>
+            Got a question? Reach out at{' '}
+            <a href="mailto:oscar@creativewave.nz" style={{ color: '#00B7FF', fontWeight: 600, textDecoration: 'none' }}>oscar@creativewave.nz</a>
+          </div>
+
         </div>
-
       </main>
 
       {/* Footer */}
-      <footer style={{ textAlign: 'center', padding: '32px 40px', fontSize: '12px', fontWeight: 500, color: 'rgba(30,30,30,0.35)', borderTop: '1px solid #D2DAD2', background: '#FFFFFF' }}>
-        <p>Creative Wave Media · <a href="mailto:oscar@creativewave.nz" style={{ color: 'rgba(30,30,30,0.35)', textDecoration: 'none' }}>oscar@creativewave.nz</a> · <a href="https://www.creativewave.nz" style={{ color: 'rgba(30,30,30,0.35)', textDecoration: 'none' }}>www.creativewave.nz</a></p>
-        <p style={{ marginTop: '5px' }}>This portal is private and intended for {displayName} only.</p>
+      <footer style={{ textAlign: 'center', padding: '28px 40px', fontSize: '11px', color: '#2d4060', borderTop: '1px solid #162035' }}>
+        <p>Creative Wave Media · <a href="mailto:oscar@creativewave.nz" style={{ color: '#2d4060', textDecoration: 'none' }}>oscar@creativewave.nz</a> · <a href="https://www.creativewave.nz" style={{ color: '#2d4060', textDecoration: 'none' }}>www.creativewave.nz</a></p>
+        <p style={{ marginTop: '4px' }}>This portal is private and intended for {displayName} only.</p>
       </footer>
     </div>
   )
